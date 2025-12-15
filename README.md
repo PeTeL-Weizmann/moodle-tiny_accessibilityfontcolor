@@ -1,112 +1,122 @@
-moodle-tiny_accessibilityfontcolor
+# moodle-tiny_accessibilityfontcolor
 ========================
 
-![Release](https://img.shields.io/badge/Release-0.8-blue.svg)
-[![Moodle Plugin CI](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/workflows/Moodle%20Plugin%20CI/badge.svg?branch=main)](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amain)
-[![PHP Support](https://img.shields.io/badge/php-7.4--8.3-blue)](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/action)
-[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.5-orange)](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/actions)
-[![License GPL-3.0](https://img.shields.io/github/license/bfh/moodle-tiny_accessibilityfontcolor?color=lightgrey)](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/blob/main/LICENSE)
-[![GitHub contributors](https://img.shields.io/github/contributors/bfh/moodle-tiny_accessibilityfontcolor)](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/graphs/contributors)
+A TinyMCE plugin for Moodle that provides text and background color controls
+with built-in accessibility enforcement.  
+The plugin dynamically filters available color combinations to ensure
+WCAG AA contrast compliance (minimum 4.5:1).
+
+---
+
+## Accessibility Focus
+
+- Enforces **WCAG AA contrast ratio (4.5:1)** for text and background colors
+- Dynamically filters available colors based on the current selection
+- Updates available options in real time during editing
+- Prevents selection of inaccessible color combinations
+
+---
+
+## Key Features
+
+- WCAG AA (4.5:1) contrast enforcement
+- Dynamic filtering of foreground and background colors
+- Configurable preset color palettes
+- Optional free-form color pickers (disabled by default)
+- Multilanguage color names (supports Moodle multilang tags)
+- Integration with Tiny toolbar, format menu, and context menu
+- Hex color validation (`#RRGGBB` only)
+- Privacy compliant (implements null provider)
+
+---
+
+## Configuration
+
+### Admin UI Configuration
+
+The plugin can be configured via the Moodle administration interface:
+
+**Site administration → Plugins → Text editors → Tiny editor → Accessibility font color**
+
+Available settings:
+- **Available text colors** – Named text colors with hex values
+- **Available background colors** – Named background colors with hex values
+- **Text color picker** – Enable or disable free-form text color selection
+- **Background color picker** – Enable or disable free-form background color selection
+
+If no colors are defined and the corresponding color picker is disabled,
+the related toolbar button and menu entry will not be shown.
+
+---
+
+### JSON Color Scheme Configuration
+
+As an alternative to the admin UI, color palettes can be defined using a
+`colorscheme.json` file.
+
+This approach is useful for:
+- Initial setup
+- Bulk definition of color palettes
+- Version-controlled color schemes
+
+The JSON configuration acts as a fallback and can be used alongside
+the admin interface. If admin settings are defined, they take precedence.
+
+---
 
 ## Installation
 
-- Unzip the contents of the zip archive into the Moodle `.../lib/editor/tiny/plugins/accessibilityfontcolor` directory.
-- As a Moodle Admin go to Site Administration -> Plugins -> Text Editors -> TinyMCE editor -> Tiny text color/text background color settings
-and add a view color names and color codes for at least on of the setting "Available text colors" or "Available text background colors".
-- You may also enable the color picker for text color or background color.
- 
-If no colors are available and the color picker is disabled then the
-menu item and button in the TinyMCE editor will not appear. This is valid for both,
-the text color setting and the background color setting.
+1. Copy the plugin into the following directory:  lib/editor/tiny/plugins/accessibilityfontcolor
+2. Log in as a Moodle administrator
+3. Go to **Site administration → Notifications** to complete the installation
+4. Configure the plugin settings under:
+**Site administration → Plugins → Text editors → Tiny editor**
 
-The color name can be an arbitrary string e.g. Red or Dark Green or whatever you name
-your color. The name can be also the "corporate name" e.g. that is used in any style guides
-of the corporate identity at your institution.
+### Requirements
+- Moodle 4.1 or later
+- Tiny editor enabled
+- Not compatible with Atto
 
-### Colorscheme
+---
 
-If you want a predefined color scheme, then you may add the json from
-the file `colorscheme.json` into the settings `textcolors` and/or `backgroundcolors`
-in the plugin settings. This can be done by e.g.
+## Technical Notes
 
-```
-UPDATE config_plugins
-SET value = '<json_string>'
-WHERE plugin = 'tiny_accessibilityfontcolor' AND name = 'textcolors';
-```
+- Contrast calculation follows WCAG 2.1 relative luminance rules
+- Contrast ratio formula: (L1 + 0.05) / (L2 + 0.05)
+- Only 6-digit hex color values (`#RRGGBB`) are accepted
+- Color filtering occurs dynamically as editor content changes
+- Original color palettes are preserved internally to allow reset and re-filtering
 
-### Multilanguage support
+---
 
-Color names may also use language tags for the color names. Text filters
-are applied. For example setting black and white with German and English
-labels would look like this:
+## Privacy
 
-```
-[
-    {
-        "name": "<span class=\"multilang\" lang=\"de\">Schwarz</span><span class=\"multilang\" lang=\"en\">Black</span>",
-        "value": "#000000"
-    },
-    {
-        "name": "<span class=\"multilang\" lang=\"de\">Weiss</span><span class=\"multilang\" lang=\"en\">White</span>",
-        "value": "#ffffff"
-    }
-]
-```
+This plugin does not store any personal data.  
+It implements Moodle’s privacy null provider.
 
-The value of the `name` property can be copied as it is, in the admin settings area.
+---
 
-The name of the color is used as a tooltip in the editor when hovering
-over the appropriate color square.
+## License and Credits
 
-## Version History
+This plugin is licensed under the GNU General Public License v3 or later.
 
-### 0.8
+### Original Work
 
-- Adjustments for Moodle 4.5
+This plugin is based on the **Tiny Font Color** plugin (`tiny_fontcolor`),
+originally developed by:
 
-### 0.7
-- Fix [HTML areas without files seem to fail with the tiny_accessibilityfontcolor enabled #16](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/issues/16) and 
-[TinyMCE fails when creating a qtype_multichoice question #17](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/issues/17). The introduced context menu items in 0.6 didn't show up under
-some conditions (e.g. in mc questions for answers and feedback) when there was no previously
-defined contextmenu.
+- **Luca Bösch** (Bern University of Applied Sciences, BFH) – 2023  
+- **Stephan Robotta** (Bern University of Applied Sciences, BFH) – 2023  
 
-### 0.6
-- [Add quickbar support #14](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/issues/14)
-by [Thomas Ludwig](https://github.com/tholudwig)
+### Accessibility Extensions
 
-### 0.5
-- Add support for Moodle 4.4 and PHP 8.3.
-- Add json for a comprehensive color scheme (thanks to Joseph Rézeau).
+Accessibility-focused extensions, including WCAG AA contrast enforcement,
+dynamic color filtering, and administrative enhancements, were developed by:
 
-### 0.4
-- Add CI stack for Moodle 4.3
+- **Oshrat Luski** (PeTeL Project, Weizmann Institute of Science) – 2024  
 
-### 0.3
-- Fix CI issue: (#1) HTML Validation info, line 10: Trailing slash on void elements has no effect and interacts badly with unquoted attribute values.
-- [Fix behat by switching to trait class](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/pull/12)
-by [Jason Platts](https://github.com/jason-platts)
-- [Preparing for PHP 8.2 Support](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/pull/13)
-by [Luca Bösch](https://github.com/lucaboesch)
-- Lifted software maturity to stable
+### Maintenance
 
-### 0.2.3
-- Lift software maturity level to RC.
-- Fix issue [The close button of the color picker can't be reach by keyboard](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/issues/10)
+Current maintenance and public release are provided by the  
+**PeTeL Project – Weizmann Institute of Science**.
 
-### 0.2.2
-
-- Lift software maturity level to STABLE.
-- Adapt CI to test against Moodle 4.2.
-- Fix example JSON in mustache templates and make CI have templates checked.
-- Fix issue [Probably, $string['helplinktext'] = 'Font colour'; is needed in the lang strings](https://github.com/bfh/moodle-tiny_accessibilityfontcolor/issues/6).
-
-### 0.2.1
-
-- Add behat test for the admin settings page and reorganize tests.
-- Remove function `str_contains` to be PHP7.x compliant.
-- Change maturity of plugin to release candidate.
-- Privacy Provider was added.
-
-### 0.2.0
-Initial release
