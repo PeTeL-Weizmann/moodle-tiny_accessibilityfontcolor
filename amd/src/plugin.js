@@ -14,11 +14,11 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The tiny_accessibilityfontcolor prlugin for Moodle.
+ * The tiny_accessibilityfontcolor plugin for Moodle.
  *
  * @module      tiny_accessibilityfontcolor
  * @copyright   2023 Luca Bösch <luca.boesch@bfh.ch>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 import {getTinyMCE} from 'editor_tiny/loader';

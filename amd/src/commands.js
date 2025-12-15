@@ -18,7 +18,7 @@
  *
  * @module      tiny_accessibilityfontcolor
  * @copyright   2023 Luca Bösch <luca.boesch@bfh.ch>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 import {register$c} from "./colorswat";

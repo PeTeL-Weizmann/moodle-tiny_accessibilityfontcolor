@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Tiny Font Color plugin for Moodle.
+ * Tiny Accessibility Font Color plugin for Moodle.
  *
  * @package     tiny_accessibilityfontcolor
  * @copyright   2023 Luca Bösch <luca.boesch@bfh.ch>
@@ -31,13 +31,6 @@ use editor_tiny\plugin_with_menuitems;
 use editor_tiny\plugin_with_buttons;
 use editor_tiny\plugin_with_configuration;
 
-/**
- * BFH Font colour plugin.
- *
- * @package     tiny_accessibilityfontcolor
- * @copyright   2023 Luca Bösch <luca.boesch@bfh.ch>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class plugininfo extends plugin implements plugin_with_menuitems, plugin_with_buttons, plugin_with_configuration {
 
     /**
@@ -53,7 +46,7 @@ class plugininfo extends plugin implements plugin_with_menuitems, plugin_with_bu
     }
 
     /**
-     * Get a list of the buttons provided by this plugin.
+     * Returns the list of Tiny toolbar buttons provided by this plugin.
      * @return string[]
      */
     public static function get_available_buttons(): array {
@@ -65,8 +58,8 @@ class plugininfo extends plugin implements plugin_with_menuitems, plugin_with_bu
 
     /**
      * Validate the hex code of the color
-     * @param string $code
-     * @return bool
+     * @param string $code The color code to validate.
+     * @return bool True if the color code is valid.
      */
     public static function validatecolorcode(string $code): bool {
         return (bool)preg_match('/^#?[0-9a-f]{6}$/i', $code);
