@@ -1,5 +1,4 @@
 # moodle-tiny_accessibilityfontcolor
-========================
 
 A TinyMCE plugin for Moodle that provides text and background color controls
 with built-in accessibility enforcement.  
